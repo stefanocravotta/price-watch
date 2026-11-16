@@ -19,6 +19,8 @@ jobs:
       - run: node monitor.mjs
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           NOTIFY_TEST: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}
       - name: Salva stato
         run: |
