@@ -19,6 +19,7 @@ jobs:
       - run: node monitor.mjs
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          NOTIFY_TEST: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}
       - name: Salva stato
         run: |
           git config user.name "price-watch"
