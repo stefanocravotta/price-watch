@@ -1,0 +1,7 @@
+{
+  "name": "price-watch",
+  "private": true,
+  "type": "module",
+  "scripts": { "start": "node monitor.mjs" },
+  "dependencies": { "cheerio": "^1.0.0" }
+}

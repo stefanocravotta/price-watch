@@ -1,0 +1,32 @@
+{
+  "ntfyTopic": "CAMBIA-CON-UN-NOME-LUNGO-E-CASUALE",
+  "pages": [
+    {
+      "name": "Switch 2 + Mario Kart World",
+      "url": "INCOLLA-URL-PRODOTTO",
+      "selector": "INCOLLA-SELETTORE-CSS-DEL-PREZZO",
+      "maxPrice": 450,
+      "dropPercent": 5
+    }
+  ],
+  "telegram": [
+    {
+      "name": "Errori di prezzo",
+      "channel": "USERNAME-CANALE-SENZA-@",
+      "any": ["switch 2", "switch2", "mario kart"],
+      "maxPrice": 450
+    },
+    {
+      "name": "Prodigeek offerte",
+      "channel": "USERNAME-CANALE-SENZA-@",
+      "any": ["switch 2", "switch2", "mario kart"]
+    }
+  ],
+  "feeds": [
+    {
+      "name": "Switch 2",
+      "url": "INCOLLA-URL-FEED-RSS-DEL-SITO-DI-OFFERTE",
+      "keywords": ["switch 2"]
+    }
+  ]
+}
