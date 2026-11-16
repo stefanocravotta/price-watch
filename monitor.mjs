@@ -96,6 +96,8 @@ async function checkTelegram({ name, channel, keywords = [], any = [], maxPrice 
   }
 }
 
+if (process.env.NOTIFY_TEST) await notify('Test price-watch', 'Le notifiche funzionano', undefined);
+
 for (const p of cfg.pages ?? []) await checkPage(p).catch((e) => console.error(p.name, e.message));
 for (const f of cfg.feeds ?? []) await checkFeed(f).catch((e) => console.error(f.name, e.message));
 for (const t of cfg.telegram ?? []) await checkTelegram(t).catch((e) => console.error(t.name, e.message));
