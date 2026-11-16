@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import * as cheerio from 'cheerio';
 
 const cfg = JSON.parse(fs.readFileSync('config.json', 'utf8'));
-const topic = process.env.NTFY_TOPIC || cfg.ntfyTopic;
+const topic = process.env.NTFY_TOPIC;
 const STATE_FILE = 'state.json';
 const state = fs.existsSync(STATE_FILE) ? JSON.parse(fs.readFileSync(STATE_FILE, 'utf8')) : {};
 state.prices ??= {};
@@ -13,13 +13,32 @@ const headers = {
   'Accept-Language': 'it-IT,it;q=0.9',
 };
 
+const tgToken = process.env.TELEGRAM_BOT_TOKEN;
+const tgChat = process.env.TELEGRAM_CHAT_ID;
+
 async function notify(title, message, click) {
   console.log(`[notify] ${title} - ${message}`);
-  await fetch('https://ntfy.sh', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ topic, title, message, click, priority: 4 }),
-  });
+  const jobs = [];
+  if (tgToken && tgChat) {
+    const text = [title, message, click].filter(Boolean).join('\n');
+    jobs.push(
+      fetch(`https://api.telegram.org/bot${tgToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: tgChat, text }),
+      }).then(async (r) => { if (!r.ok) console.warn('Telegram errore:', r.status, await r.text()); }),
+    );
+  }
+  if (topic) {
+    jobs.push(
+      fetch('https://ntfy.sh', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic, title, message, click, priority: 4 }),
+      }),
+    );
+  }
+  await Promise.allSettled(jobs);
 }
 
 function parsePrice(text) {
